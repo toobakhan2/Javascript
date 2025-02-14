@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag & Drop Section Reorder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .wrapper {
+            width: 300px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .section {
+            padding: 20px;
+            background: lightblue;
+            text-align: center;
+            border: 2px solid #333;
+            cursor: grab;
+        }
+        .dragging {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align:center;">Drag & Drop to Reorder Sections</h2>
+
+    <div class="wrapper">
+        <div class="section" draggable="true" id="section1">Section 1</div>
+        <div class="section" draggable="true" id="section2">Section 2</div>
+        <div class="section" draggable="true" id="section3">Section 3</div>
+        <div class="section" draggable="true" id="section4">Section 4</div>
+    </div>
+
+    <script>
+let draggedItem = null;
+
+document.querySelectorAll(".section").forEach(section => {
+    section.addEventListener("dragstart", function(event) {
+        draggedItem = this;
+        this.classList.add("dragging");
+    });
+
+    section.addEventListener("dragend", function(event) {
+        this.classList.remove("dragging");
+        draggedItem = null;
+    });
+
+    section.addEventListener("dragover", function(event) {
+        event.preventDefault();
+        const wrapper = this.parentElement;
+        const allSections = [...wrapper.children];
+        const draggedIndex = allSections.indexOf(draggedItem);
+        const hoverIndex = allSections.indexOf(this);
+        const hoverRect = this.getBoundingClientRect();
+        const hoverMiddle = hoverRect.top + hoverRect.height / 2;
+        const mousePosition = event.clientY;
+        if (mousePosition < hoverMiddle) {
+            wrapper.insertBefore(draggedItem, this);
+        } else {
+            wrapper.insertBefore(draggedItem, this.nextSibling);
+
+        }
+    });
+});
+
+    </script>
+
+</body>
+</html>
