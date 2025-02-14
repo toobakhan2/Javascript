@@ -1,0 +1,261 @@
+:root {
+	--yellow: #FFBD13;
+    --primary: #D2102F;
+    --secondry: #272E6D;
+}
+
+/* banner */
+header {
+    color: #fff;
+    background: linear-gradient(166deg, var(--primary) 0%, var(--secondry) 61%);
+    padding: 50px 0px 100px;
+    clip-path: polygon(0 0, 100% 0%, 100% 80%, 0% 100%);
+    min-height: 100vh;
+
+    h1 {
+        font-size: 45px;
+    }
+    .banner-text{
+        max-width: 400px;
+        width: 100%;
+    }
+}
+
+/* theme button */
+.theme-btn {
+    position: relative;
+    display: inline-block;
+    background-color: transparent;
+    width: auto;
+    height: auto;
+    border: none;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #fff;
+    padding: 15px 30px;
+    min-width: 150px;
+
+    &.dark {
+        background: linear-gradient(166deg, var(--primary) 0%, var(--secondry) 61%);
+
+        span {
+            color: #fff;
+        }
+    }
+
+    &::before {
+        position: absolute;
+        z-index: 1;
+        content: "";
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: -100%;
+        background-color: var(--secondry);
+        transition: 0.3s ease-out;
+    }
+
+    span {
+        position: relative;
+        display: inline-block;
+        color: #000;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: 0.3s;
+        z-index: 2;
+    }
+
+    &:hover {
+        &::before {
+            top: 0;
+        }
+
+        span {
+            color: #fff;
+        }
+    }
+}
+
+/* Reset box-sizing */
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+/* Error message */
+span.error-message {
+    color: red;
+}
+
+
+/* Review section */
+section#review {
+    padding: 100px 0px;
+}
+
+.wrapper {
+    text-align: center;
+    width: 100%;
+    max-width: 526px;
+    margin: 0px auto 50px auto;
+
+    h2 {
+        font-size: 40px;
+        font-weight: bold;
+    }
+}
+
+.input-wrap {
+    position: relative;
+    margin-top: 35px;
+
+    label {
+        display: block;
+        transition: 0.3s ease-in-out;
+        position: absolute;
+        left: 12px;
+        top: 12px;
+    }
+
+    input {
+        display: block;
+        width: 100%;
+        padding: 12px;
+    }
+
+    &.focused label {
+        top: -25px;
+        left: 0px;
+    }
+}
+
+/* Rating */
+.rating {
+    display: flex;
+    align-items: center;
+    grid-gap: .5rem;
+    font-size: 2rem;
+    color: var(--yellow);
+    margin-bottom: 10px;
+
+    .star {
+        cursor: pointer;
+
+        &.active {
+            opacity: 0;
+            animation: animate .5s calc(var(--i) * .1s) ease-in-out forwards;
+        }
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    @keyframes animate {
+        0% {
+            opacity: 0;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+
+/* Popup */
+.popup {
+    position: fixed;
+    background: rgba(0, 0, 0, .7);
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 99;
+    height: 100%;
+    left: 0;
+    transition: 0.4s;
+    top: 0;
+
+    &.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .close {
+        position: absolute;
+        font-size: 33px;
+        right: 20px;
+        top: 0px;
+        cursor: pointer;
+    }
+
+    .popup_content {
+        position: absolute;
+        left: 50%;
+        border-radius: 20px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 40px 20px;
+        width: 45%;
+        max-width: 500px;
+        text-align: center;
+
+        .succes-message {
+            font-size: 20px;
+            span{
+                font-size: 16px;
+            }
+        }
+
+        .popup_img {
+            width: 60%;
+            max-width: 190px;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .wrapper h2 {
+        font-size: 30px;
+    }
+
+    header h1 {
+        font-size: 35px;
+    }
+
+    .popup_content {
+        width: 85%;
+    }
+
+    .banner-content {
+        text-align: center;
+    }
+
+    section#review {
+        padding: 50px 0px;
+        .input-wrap, .input-wrap input  {
+            text-align: center;
+        }
+        .rating {
+            justify-content: center;
+        }
+    }
+    
+    .response_images{
+        text-align: center;
+    }
+}
