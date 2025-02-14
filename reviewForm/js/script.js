@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
         5: 'img/5starcat.gif', // Excited face
     };
 
-    console.log("check len out of for each", allStar.length);
     // Handle star selection
     allStar.forEach((item, idx) => {
         item.addEventListener('click', function () {
@@ -27,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ratingError.textContent = ''; // Clear error message
             }
     
-            // Update star
+            // Update star visuals
             allStar.forEach((i) => {
                 i.classList.replace('bxs-star', 'bx-star');
                 i.classList.remove('active');
@@ -37,8 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 allStar[i].classList.replace('bx-star', 'bxs-star');
                 allStar[i].classList.add('active');
             }
-            // changing the gif image on the left side
+    
             leftGif.src = smileyImages[idx + 1]; 
+            console.log(`Rating selected: ${ratingValue.value}`);
         });
     });
     
@@ -85,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        console.log('Rating value:', ratingValue.value);    
         if (!ratingValue.value) {
             const ratingError = document.querySelector('.rating').nextElementSibling;
             if (ratingError) ratingError.textContent = 'Please select a star rating.';
@@ -101,29 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Handle form submission
-    form.addEventListener('submit', async (e) => {
+    form.querySelector('#submit').addEventListener('click', async (e) => {
         e.preventDefault(); // Prevent default form submission
 
         if (validateForm()) {
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch(' http://localhost/Bartlett/index.php', {
-                    method: 'POST',
-                    body: formData,
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-
-                if (result.success) {
+          
                     const rating = parseInt(ratingValue.value);
+                    const username = document.getElementById('name').value;
                     console.log('Smiley image set to:', smileyImages[rating]);
                     
                     // Update modal content dynamically
-                    popup.querySelector('.name_box').textContent = result.name || 'Guest';
+                    popup.querySelector('.name_box').innerHTML = `${username}` ;
                     popup.querySelector('.popup_img').src = smileyImages[rating] || 'img/sad.png';
                 
                     // Reset star ratings
@@ -137,19 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     popup.classList.add("show");
                     form.reset();
                     leftGif.src = 'img/curiouscat.gif'; 
-                
-                } else {
-                    alert('Failed to submit the review. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error submitting the review:', error);
-                alert('An error occurred while submitting your review.');
             }
-        } else {
-            console.log('An error occurred while submitting your review.');
-            alert('An error occurred while submitting your review.');
-        }
-      
     });
 
     // Close modal logic
